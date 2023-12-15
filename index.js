@@ -16,3 +16,19 @@ app.get('/secreturl', (req, res) => {
 app.listen(8080, () => {
     console.log('Your app is listening on port 8080.');
 });
+
+app.use(express.static('public'));
+
+const bodyParser = require('body-parser'),
+    methodOverride = require('method-override');
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
+app.use(bodyParser.json());
+app.use(methodOverride());
+
+app.use((err, req, res, next) => {
+    // logic
+});

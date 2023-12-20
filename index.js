@@ -34,5 +34,5 @@ const users = []
 
 
 app.listen(port, () => {
-    console.log('Your app is listening on port 8080!');
+    console.log('Your app is listening on port ${port}');
 });

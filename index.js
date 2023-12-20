@@ -1,35 +1,38 @@
-const express = require('express'),
-    morgan = require('morgan');
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
 const app = express();
+const port = 8080
 
-app.use(morgan('common'));
+//Middleware
+app.use(bodyParser.json());
+app.use(morgan('dev'));
 
-app.get('/', (req, res) => {
-    res.send('Welcome to my app!');
-});
+//Placeholder for Movies, Genres, directors, and users
+const movies = [
 
-app.get('/secreturl', (req, res) => {
-    res.send('This is a secret url with super top-secret content.');
-});
+    { title: 'Movie 1', description: 'Description 1', genre: 'Action', director: 'Director 1', imageUrl: 'url1', featured: true },
 
-app.use(express.static('public'));
+    { title: 'Movie 2', description: 'Description 2', genre: 'Drama', director: 'Director 2', imageUrl: 'url2', featured: false },
+];
 
-//const bodyParser = require('body-parser'),
-// methodOverride = require('method-override');
+const genres = [
+    { name: 'Action', description: 'Actions movies genre description' },
 
-//app.use(bodyParser.urlencoded({
-//extended: true
-//}));
+    { name: 'Comedy', description: 'Drama movies genre description' },
 
-//app.use(bodyParser.json());
-//app.use(methodOverride());
+];
 
-//app.use((err, req, res, next) => {
-// logic
-//});
+const directors = [
+    { name: 'Director 1', bio: 'Bio 1', birthYear: 1956, deathYear: 2021 },
+
+    { name: 'Director 2', bio: 'Bio 2', birthYear: 1978, deathYear: null },
+];
+
+const users = []
 
 
-app.listen(8080, () => {
-    console.log('Your app is listening on port 8080.');
+app.listen(port, () => {
+    console.log('Your app is listening on port 8080!');
 });

@@ -32,6 +32,35 @@ const directors = [
 
 const users = []
 
+// Get all movies
+app.get('movies', (req, res) => {
+    res.json(movies);
+});
+
+//  Get a single movie by title
+app.get('/movies/:title', (req, res) => {
+    const movieTitle = req.params.title;
+    const movie = movies.find((m) => m.title === movieTitle);
+
+    if (!movie) {
+        return res.status(404).json({ error: 'Movie Not Found!' });
+    }
+
+    res.json(movie);
+
+});
+
+// Get Genre by Name
+app.get('/genres/:name', (req, res) => {
+    const genreName = req.params.name;
+    const genre = genres.find((g) => g.name === genreName);
+
+    if (!genre) {
+        return res.status(404).json({ error: 'Genre Not Found' });
+    }
+
+    res.json(genre);
+});
 
 app.listen(port, () => {
     console.log('Your app is listening on port ${port}');

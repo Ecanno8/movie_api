@@ -62,6 +62,19 @@ app.get('/genres/:name', (req, res) => {
     res.json(genre);
 });
 
+// Get Director by Name
+app.get('/directors/:name', (req, res) => {
+    const directorName = req.params.name;
+    const director = directors.find((d) => d.name === directorName);
+
+    if (!director) {
+        return res.status(404).json({ error: 'Director was Not Found!' });
+    }
+
+    res.json(director);
+
+});
+//Start Server
 app.listen(port, () => {
-    console.log('Your app is listening on port ${port}');
+    console.log('Your app is listening on port 8080');
 });

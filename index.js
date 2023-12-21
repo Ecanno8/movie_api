@@ -74,6 +74,22 @@ app.get('/directors/:name', (req, res) => {
     res.json(director);
 
 });
+
+//User
+app.post('/users/register', (req, res) => {
+    const { username, email, password } = req.body;
+
+    res.status(201).json({ message: 'User accepted.' });
+});
+
+//Update user info (username)
+app.put('/users/:userId', (req, res) => {
+    const userId = req.params.userId;
+    const { username } = req.body;
+
+    res.json({ message: 'Users info has been updated.' });
+});
+
 //Start Server
 app.listen(port, () => {
     console.log('Your app is listening on port 8080');

@@ -75,7 +75,7 @@ app.get('/directors/:name', (req, res) => {
 
 });
 
-//User
+//User registration
 app.post('/users/register', (req, res) => {
     const { username, email, password } = req.body;
 
@@ -90,6 +90,28 @@ app.put('/users/:userId', (req, res) => {
     res.json({ message: 'Users info has been updated.' });
 });
 
+//Add movie to favorites
+app.post('/users/:userId/favorites', (req, res) => {
+    const userId = req.params.userId;
+    const { movieTitle } = req.body;
+
+    res.json({ message: 'Movie has been add to Favorites.' });
+});
+
+// Remove a movie from favorites
+app.delete('/users/:userId/favorites/:movieTitle', (req, res) => {
+    const userId = req.params.userId;
+    const movieTitle = req.params.movieTitle;
+
+    res.json({ message: 'Movie has been removed from favorites.' });
+});
+
+//User deregistration
+app.delete('/users/:userId', (req, res) => {
+    const userId = req.params.userId;
+
+    res.json({ message: ' User has been removed ' });
+});
 //Start Server
 app.listen(port, () => {
     console.log('Your app is listening on port 8080');

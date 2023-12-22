@@ -33,7 +33,7 @@ const directors = [
 const users = []
 
 // Get all movies
-app.get('movies', (req, res) => {
+app.get('/movies', (req, res) => {
     res.json(movies);
 });
 

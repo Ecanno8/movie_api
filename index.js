@@ -112,7 +112,10 @@ app.delete('/users/:userId', (req, res) => {
 
     res.json({ message: ' User has been removed ' });
 });
-//Start Server
-app.listen(port, () => {
-    console.log('Your app is listening on port 8080');
-});
+//universal url
+app.get("/:universalURL", (req, res) => {
+    res.send("404 URL NOT FOUND");
+    //Start Server
+    app.listen(port, () => {
+        console.log('Your app is listening on port 8080');
+    });

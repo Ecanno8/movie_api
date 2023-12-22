@@ -9,6 +9,379 @@
 
 <body>
     <h1>This page will give instructions of the features and applications of my movie-api project</h1>
+
+    <h2>Get Movies</h2>
+
+    <p><strong>Description:</strong> Retrieves a list of movies.</p>
+
+    <p><strong>Endpoint URL:</strong> <code>/movies</code></p>
+
+    <p><strong>Method Type:</strong> GET</p>
+
+    <p><strong>Query Parameters:</strong> None</p>
+
+    <p><strong>Request Body:</strong> None (This endpoint does not expect any data in the request body)</p>
+
+    <pre><code>Example Request:
+    GET /movies</code></pre>
+
+    <p><strong>Response Data:</strong></p>
+
+    <pre><code>Format: JSON
+    Example:
+    [
+      {
+        "id": 1,
+        "title": "Inception",
+        "genre": "Sci-Fi",
+        "releaseYear": 2010
+      },
+      {
+        "id": 2,
+        "title": "The Shawshank Redemption",
+        "genre": "Drama",
+        "releaseYear": 1994
+      },
+      // ... additional movie objects
+    ]</code></pre>
+
+    <p><strong>Status Codes:</strong></p>
+
+    <ul>
+        <li>200 OK: Successful request, returns a list of movies.</li>
+        <li>404 Not Found: The requested resource (movies) was not found.</li>
+    </ul>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+        <li>The response contains an array of movie objects, each providing information such as movie ID, title, genre,
+            and release year.</li>
+        <li>Ensure that the request does not include any query parameters, as they are not applicable to this endpoint.
+        </li>
+    </ul>
+
+    <h2>Get Movie by Title</h2>
+
+    <p><strong>Description:</strong> Retrieves a movie by its title.</p>
+
+    <p><strong>Endpoint URL:</strong> <code>/movies/:title</code></p>
+
+    <p><strong>Method Type:</strong> GET</p>
+
+    <p><strong>Query Parameters:</strong> None</p>
+
+    <p><strong>Request Body:</strong> None (This endpoint does not expect any data in the request body)</p>
+
+    <pre><code>Example Request:
+  GET /movies/Inception</code></pre>
+
+    <p><strong>Response Data:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "id": 1,
+    "title": "Inception",
+    "genre": "Sci-Fi",
+    "releaseYear": 2010
+  }</code></pre>
+
+    <p><strong>Status Codes:</strong></p>
+
+    <ul>
+        <li>200 OK: Successful request, returns the movie with the specified title.</li>
+        <li>404 Not Found: The requested movie with the specified title was not found.</li>
+    </ul>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+        <li>The response contains a single movie object with information such as movie ID, title, genre, and release
+            year.</li>
+        <li>If the movie with the specified title is not found, a 404 Not Found error is returned with an error message.
+        </li>
+    </ul>
+
+    <h2>Get Genre by Name</h2>
+
+    <p><strong>Description:</strong> Retrieves a genre by its name.</p>
+
+    <p><strong>Endpoint URL:</strong> <code>/genres/:name</code></p>
+
+    <p><strong>Method Type:</strong> GET</p>
+
+    <p><strong>Query Parameters:</strong> None</p>
+
+    <p><strong>Request Body:</strong> None (This endpoint does not expect any data in the request body)</p>
+
+    <pre><code>Example Request:
+  GET /genres/Sci-Fi</code></pre>
+
+    <p><strong>Response Data:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "id": 1,
+    "name": "Sci-Fi",
+    "description": "Science Fiction"
+  }</code></pre>
+
+    <p><strong>Status Codes:</strong></p>
+
+    <ul>
+        <li>200 OK: Successful request, returns the genre with the specified name.</li>
+        <li>404 Not Found: The requested genre with the specified name was not found.</li>
+    </ul>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+        <li>The response contains a single genre object with information such as genre ID, name, and description.</li>
+        <li>If the genre with the specified name is not found, a 404 Not Found error is returned with an error message.
+        </li>
+    </ul>
+
+    <h2>Get Director by Name</h2>
+
+    <p><strong>Description:</strong> Retrieves a director by their name.</p>
+
+    <p><strong>Endpoint URL:</strong> <code>/directors/:name</code></p>
+
+    <p><strong>Method Type:</strong> GET</p>
+
+    <p><strong>Query Parameters:</strong> None</p>
+
+    <p><strong>Request Body:</strong> None (This endpoint does not expect any data in the request body)</p>
+
+    <pre><code>Example Request:
+  GET /directors/Christopher%20Nolan</code></pre>
+
+    <p><strong>Response Data:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "id": 1,
+    "name": "Christopher Nolan",
+    "birthYear": 1970
+  }</code></pre>
+
+    <p><strong>Status Codes:</strong></p>
+
+    <ul>
+        <li>200 OK: Successful request, returns the director with the specified name.</li>
+        <li>404 Not Found: The requested director with the specified name was not found.</li>
+    </ul>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+        <li>The response contains a single director object with information such as director ID, name, and birth year.
+        </li>
+        <li>If the director with the specified name is not found, a 404 Not Found error is returned with an error
+            message.</li>
+    </ul>
+
+    <h2>User Registration</h2>
+
+    <p><strong>Description:</strong> Registers a new user.</p>
+
+    <p><strong>Endpoint URL:</strong> <code>/users/register</code></p>
+
+    <p><strong>Method Type:</strong> POST</p>
+
+    <p><strong>Query Parameters:</strong> None</p>
+
+    <p><strong>Request Body:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "username": "example_user",
+    "email": "user@example.com",
+    "password": "secure_password"
+  }</code></pre>
+
+    <p><strong>Response Data:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "message": "User accepted."
+  }</code></pre>
+
+    <p><strong>Status Codes:</strong></p>
+
+    <ul>
+        <li>201 Created: Successful user registration, returns a confirmation message.</li>
+    </ul>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+        <li>The request should include a JSON body with the user's username, email, and password.</li>
+        <li>The response contains a confirmation message indicating the successful user registration.</li>
+    </ul>
+
+    <h2>Update User Information</h2>
+
+    <p><strong>Description:</strong> Updates information for a specific user.</p>
+
+    <p><strong>Endpoint URL:</strong> <code>/users/:userId</code></p>
+
+    <p><strong>Method Type:</strong> PUT</p>
+
+    <p><strong>Query Parameters:</strong> None</p>
+
+    <p><strong>Request Body:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "username": "new_username"
+  }</code></pre>
+
+    <p><strong>Response Data:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "message": "User's info has been updated."
+  }</code></pre>
+
+    <p><strong>Status Codes:</strong></p>
+
+    <ul>
+        <li>200 OK: Successful update, returns a confirmation message.</li>
+    </ul>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+        <li>The request should include a JSON body with the updated user information, specifically the new username.
+        </li>
+        <li>The response contains a confirmation message indicating the successful update of the user's information.
+        </li>
+    </ul>
+
+    <h2>Add Movie to User Favorites</h2>
+
+    <p><strong>Description:</strong> Adds a movie to the favorites list for a specific user.</p>
+
+    <p><strong>Endpoint URL:</strong> <code>/users/:userId/favorites</code></p>
+
+    <p><strong>Method Type:</strong> POST</p>
+
+    <p><strong>Query Parameters:</strong> None</p>
+
+    <p><strong>Request Body:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "movieTitle": "Inception"
+  }</code></pre>
+
+    <p><strong>Response Data:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "message": "Movie has been added to Favorites."
+  }</code></pre>
+
+    <p><strong>Status Codes:</strong></p>
+
+    <ul>
+        <li>200 OK: Successful addition, returns a confirmation message.</li>
+    </ul>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+        <li>The request should include a JSON body with the title of the movie to be added to the favorites list.</li>
+        <li>The response contains a confirmation message indicating the successful addition of the movie to the user's
+            favorites.</li>
+    </ul>
+
+    <h2>Remove Movie from User Favorites</h2>
+
+    <p><strong>Description:</strong> Removes a movie from the favorites list for a specific user.</p>
+
+    <p><strong>Endpoint URL:</strong> <code>/users/:userId/favorites/:movieTitle</code></p>
+
+    <p><strong>Method Type:</strong> DELETE</p>
+
+    <p><strong>Query Parameters:</strong> None</p>
+
+    <p><strong>Request Body:</strong> None (This endpoint does not expect any data in the request body)</p>
+
+    <pre><code>Example Request:
+  DELETE /users/123/favorites/Inception</code></pre>
+
+    <p><strong>Response Data:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "message": "Movie has been removed from favorites."
+  }</code></pre>
+
+    <p><strong>Status Codes:</strong></p>
+
+    <ul>
+        <li>200 OK: Successful removal, returns a confirmation message.</li>
+    </ul>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+        <li>The request should specify the user ID and the title of the movie to be removed from the favorites list.
+        </li>
+        <li>The response contains a confirmation message indicating the successful removal of the movie from the user's
+            favorites.</li>
+    </ul>
+
+    <h2>Remove User</h2>
+
+    <p><strong>Description:</strong> Removes a user by their ID.</p>
+
+    <p><strong>Endpoint URL:</strong> <code>/users/:userId</code></p>
+
+    <p><strong>Method Type:</strong> DELETE</p>
+
+    <p><strong>Query Parameters:</strong> None</p>
+
+    <p><strong>Request Body:</strong> None (This endpoint does not expect any data in the request body)</p>
+
+    <pre><code>Example Request:
+  DELETE /users/123</code></pre>
+
+    <p><strong>Response Data:</strong></p>
+
+    <pre><code>Format: JSON
+  Example:
+  {
+    "message": "User has been removed."
+  }</code></pre>
+
+    <p><strong>Status Codes:</strong></p>
+
+    <ul>
+        <li>200 OK: Successful removal, returns a confirmation message.</li>
+    </ul>
+
+    <p><strong>Notes:</strong></p>
+
+    <ul>
+        <li>The request should specify the user ID to be removed.</li>
+        <li>The response contains a confirmation message indicating the successful removal of the user.</li>
+    </ul>
+
+
+
 </body>
 
 </html>

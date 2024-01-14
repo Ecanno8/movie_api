@@ -77,7 +77,7 @@ app.get('/directors/:name', (req, res) => {
 
 //User registration
 app.post('/users/register', (req, res) => {
-    const { username, email, password } = req.body;
+    const { username, email, password, birthday } = req.body;
 
     res.status(201).json({ message: 'User accepted.' });
 });

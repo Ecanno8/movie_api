@@ -1,13 +1,26 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+bodyParser = require('body-parser');
+uuid = require("uuid");
+
 const morgan = require('morgan');
+//const app = express();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
-mongoose.connect('mongodb://localhost:27017/qflixdb', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://127.0.0.1:27017/test').
+    catch(error => handleError(error));
+
+// Or:
+try {
+    await mongoose.connect('mongodb://127.0.0.1:27017/test');
+} catch (error) {
+    handleError(error);
+}
 
 const Movies = Models.Movie;
 const Users = Models.User;
+const Genres = Models.Genre;
+const Directors = Model.Director;
 
 const app = express();
 const port = 8080
@@ -17,27 +30,52 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 //Placeholder for Movies, Genres, directors, and users
-const movies = [
+//const movies = [
 
-    { title: 'Movie 1', description: 'Description 1', genre: 'Action', director: 'Director 1', imageUrl: 'url1', featured: true },
+//{ title: 'Movie 1', description: 'Description 1', genre: 'Action', director: 'Director 1', imageUrl: 'url1', featured: true },
 
-    { title: 'Movie 2', description: 'Description 2', genre: 'Drama', director: 'Director 2', imageUrl: 'url2', featured: false },
-];
+//  { title: 'Movie 2', description: 'Description 2', genre: 'Drama', director: 'Director 2', imageUrl: 'url2', featured: false },
+//];
 
-const genres = [
-    { name: 'Action', description: 'Actions movies genre description' },
+//const genres = [
+// { name: 'Action', description: 'Actions movies genre description' },
 
-    { name: 'Comedy', description: 'Drama movies genre description' },
+//  { name: 'Comedy', description: 'Drama movies genre description' },
 
-];
+//];
 
-const directors = [
-    { name: 'Director 1', bio: 'Bio 1', birthYear: 1956, deathYear: 2021 },
+//const directors = [
+//{ name: 'Director 1', bio: 'Bio 1', birthYear: 1956, deathYear: 2021 },
 
-    { name: 'Director 2', bio: 'Bio 2', birthYear: 1978, deathYear: null },
-];
+//  { name: 'Director 2', bio: 'Bio 2', birthYear: 1978, deathYear: null },
+//];
 
-const users = []
+//const users = []
+
+
+// Get all users
+app.get('/users', async (req, res) => {
+    await Users.find()
+        .then((users) => {
+            res.status(201).json(users);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+});
+
+// Get a user by username
+app.get('/users/:Username', async (req, res) => {
+    await Users.findOne({ Username: req.params.Username })
+        .then((user) => {
+            res.json(user);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+});
 
 // Get all movies
 app.get('/movies', (req, res) => {
@@ -82,11 +120,39 @@ app.get('/directors/:name', (req, res) => {
 
 });
 
-//User registration
-app.post('/users/register', (req, res) => {
-    const { username, email, password, birthday } = req.body;
-
-    res.status(201).json({ message: 'User accepted.' });
+//Add a user
+/* We’ll expect JSON in this format
+{
+  ID: Integer,
+  Username: String,
+  Password: String,
+  Email: String,
+  Birthday: Date
+}*/
+app.post('/users', async (req, res) => {
+    await Users.findOne({ Username: req.body.Username })
+        .then((user) => {
+            if (user) {
+                return res.status(400).send(req.body.Username + 'already exists');
+            } else {
+                Users
+                    .create({
+                        Username: req.body.Username,
+                        Password: req.body.Password,
+                        Email: req.body.Email,
+                        Birthday: req.body.Birthday
+                    })
+                    .then((user) => { res.status(201).json(user) })
+                    .catch((error) => {
+                        console.error(error);
+                        res.status(500).send('Error: ' + error);
+                    })
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+        });
 });
 
 //Update user info (username)

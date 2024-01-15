@@ -1,6 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+const Models = require('./models.js');
+
+mongoose.connect('mongodb://localhost:27017/qflixdb', { useNewUrlParser: true, useUnifiedTopology: true });
+
+const Movies = Models.Movie;
+const Users = Models.User;
 
 const app = express();
 const port = 8080

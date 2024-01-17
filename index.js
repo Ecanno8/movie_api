@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
+
+
 mongoose.connect('mongodb://127.0.0.1:27017/[qflixdb]').
     catch(error => handleError(error));
 
@@ -106,13 +108,13 @@ app.get('/movies/:Title', (req, res) => {
 
 // Get Genre by Name
 app.get('/genres/:Name', (req, res) => {
-    Genres.findOne({ Name: req.params.Name })
+    Genre.findOne({ Name: req.params.Name })
         .then(genre => {
             res.json(genre.Description);
         })
         .catch(err => {
             console.error(err);
-            res.status(500).send("Error: " + err);
+            res.status(500).send("Error: " + err.message);
         });
 });
 
@@ -124,7 +126,7 @@ app.get('/directors/:Name', (req, res) => {
         })
         .catch(err => {
             console.error(err);
-            res.status(500).send("Error: " + err);
+            res.status(500).send("Error: " + err).message;
         });
 });
 

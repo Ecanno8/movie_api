@@ -87,16 +87,6 @@ app.get('movies/:Title',
             });
     });
 
-app.get('/movies/:Title', (req, res) => {
-    Movies.findOne({ Title: req.params.Title })
-        .then(movie => {
-            res.json(movie);
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).send("Error: " + err);
-        });
-});
 
 // Get Genre by Name
 app.get('/genres/:Name', (req, res) => {

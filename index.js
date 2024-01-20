@@ -89,21 +89,21 @@ app.get('movies/:Title',
 
 
 // Get Genre by Name
-app.get('/genres/:Name', (req, res) => {
-    Movies.findOne({ 'Genre.Name': req.params.Name })
-        .then(movie => {
-            if (!movie) {
-                //Error Handling if genre isnt name found.
-                return res.status(404).json({ error: 'Genre not found' });
-            }
-            const genre = movie.Genre;
-            res.json({ Name: genre.Name, Description: genre.Description });
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).send("Error: " + err.message);
-        });
-});
+app.get('movies/genres/:Name',
+    passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+        Movies.findOne({ 'Genre.Name': req.params.Name })
+            .then((movie) => {
+                if (!movie) {
+                    return res.status(404).json({ error: 'Genre not found.' });
+                }
+                res.status(200).json(movie.Genre.Description);
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(500).send("Error: " + err.message);
+            });
+    });
 
 // Get Director by Name
 app.get('/directors/:Name', (req, res) => {

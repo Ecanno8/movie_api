@@ -20,8 +20,7 @@ try {
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const Genres = Models.Genre;
-const Directors = Models.Director;
+
 
 const app = express();
 const port = 8080
@@ -108,9 +107,14 @@ app.get('/movies/:Title', (req, res) => {
 
 // Get Genre by Name
 app.get('/genres/:Name', (req, res) => {
-    Genre.findOne({ Name: req.params.Name })
-        .then(genre => {
-            res.json(genre.Description);
+    Movies.findOne({ 'Genre.Name': req.params.Name })
+        .then(movie => {
+            if (!movie) {
+                //Error Handling if genre isnt name found.
+                return res.status(404).json({ error: 'Genre not found' });
+            }
+            const genre = movie.Genre;
+            res.json({ Name: genre.Name, Description: genre.Description });
         })
         .catch(err => {
             console.error(err);
@@ -120,9 +124,10 @@ app.get('/genres/:Name', (req, res) => {
 
 // Get Director by Name
 app.get('/directors/:Name', (req, res) => {
-    Directors.findOne({ Name: req.params.Name })
+    Movies.findOne({ 'Director.Name': req.params.Name })
         .then(director => {
-            res.json(director);
+            //
+            res.json(director.Director);
         })
         .catch(err => {
             console.error(err);
@@ -231,7 +236,7 @@ app.delete('/users/:Username/movies/:MovieID', async (req, res) => {
 
 // Delete a user by username
 app.delete('/users/:Username', async (req, res) => {
-    await Users.findOneAndRemove({ Username: req.params.Username })
+    await Users.findOneAndDelete({ Username: req.params.Username })
         .then((user) => {
             if (!user) {
                 res.status(400).send(req.params.Username + ' was not found');

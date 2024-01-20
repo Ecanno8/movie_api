@@ -2,7 +2,7 @@ const { Strategy } = require('passport-local');
 
 const passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    Models = require('/models.js'),
+    Models = require('./models'),
     passportJWT = require('passport-jwt');
 
 let Users = Models.User,
@@ -16,7 +16,7 @@ passport.use(
             passwordField: 'Password',
         },
         async (username, password, callback) => {
-            console.log('${username} ${password}');
+            console.log(`${username} ${password}`);
             await Users.findOne({ Username: username })
                 .then((user) => {
                     if (!user) {

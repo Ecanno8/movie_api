@@ -75,6 +75,18 @@ app.get('/users/:Username', async (req, res) => {
 
 
 //  Get a single movie by title
+app.get('movies/:Title',
+    passport.authenticate('jwt', { session: false }),
+    async (req, res) => {
+        await Movies.findOne({ Title: req.params.Title })
+            .then((movie) => {
+                res.json(movie);
+            })
+            .catch((err) => {
+                res.status(500).send('Error: ' + err);
+            });
+    });
+
 app.get('/movies/:Title', (req, res) => {
     Movies.findOne({ Title: req.params.Title })
         .then(movie => {
@@ -163,7 +175,12 @@ app.post('/users', async (req, res) => {
   (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', async (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    // CONDITION TO CHECK ADDED HERE
+    if (req.user.Username !== req.params.Username) {
+        return res.status(400).send('Permission denied');
+    }
+    // CONDITION ENDS
     await Users.findOneAndUpdate({ Username: req.params.Username }, {
         $set:
         {
@@ -178,10 +195,9 @@ app.put('/users/:Username', async (req, res) => {
             res.json(updatedUser);
         })
         .catch((err) => {
-            console.error(err);
+            console.log(err);
             res.status(500).send('Error: ' + err);
         })
-
 });
 
 //Add movie to favorites

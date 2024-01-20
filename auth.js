@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken'),
     passport = require('passport');
 const { User } = require('./models');
 
-require('/passport');  // Your local passport file 
+require('./passport');  // Your local passport file 
 
 let generateJWTToken = (user) => {
     return jwt.sign(user, jwtSecret, {
@@ -15,8 +15,8 @@ let generateJWTToken = (user) => {
 }
 
 /* POST login. */
-modeule.exports = (router) => {
-    router.posrt('/login', (req, res) => {
+module.exports = (router) => {
+    router.post('/login', (req, res) => {
         passport.authenticate('local', { session: false }, (error, user, info) => {
             if (error || !user) {
                 return res.status(400).json({

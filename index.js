@@ -106,17 +106,18 @@ app.get('movies/genres/:Name',
     });
 
 // Get Director by Name
-app.get('/directors/:Name', (req, res) => {
-    Movies.findOne({ 'Director.Name': req.params.Name })
-        .then(director => {
-            //
-            res.json(director.Director);
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).send("Error: " + err).message;
-        });
-});
+app.get('movies/directors/:Name',
+    passport.authenticate('jwt', { session: false }),
+    (req, res) => {
+        Movies.findOne({ 'Director.Name': req.params.Name })
+            .then(director => {
+                res.status(200).json(director.Director);
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).send("Error: " + err).message;
+            });
+    });
 
 //Add a user
 /* We’ll expect JSON in this format

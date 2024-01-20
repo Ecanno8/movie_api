@@ -29,42 +29,23 @@ const port = 8080
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-//Placeholder for Movies, Genres, directors, and users
-//const movies = [
+let auth = require('./auth')(app);
+const passport = require('passport');
+require('./passport');
 
-//{ title: 'Movie 1', description: 'Description 1', genre: 'Action', director: 'Director 1', imageUrl: 'url1', featured: true },
-
-//  { title: 'Movie 2', description: 'Description 2', genre: 'Drama', director: 'Director 2', imageUrl: 'url2', featured: false },
-//];
-
-//const genres = [
-// { name: 'Action', description: 'Actions movies genre description' },
-
-//  { name: 'Comedy', description: 'Drama movies genre description' },
-
-//];
-
-//const directors = [
-//{ name: 'Director 1', bio: 'Bio 1', birthYear: 1956, deathYear: 2021 },
-
-//  { name: 'Director 2', bio: 'Bio 2', birthYear: 1978, deathYear: null },
-//];
-
-//const users = []
-//default text response when at /
 app.get("/", (req, res) => {
     res.send("Welcome to MyFlix!");
 });
 
 // Get all movies
-app.get('/movies', (req, res) => {
-    Movies.find()
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
         })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).send("error: " + err);
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
         });
 });
 

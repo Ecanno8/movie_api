@@ -6,6 +6,8 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
+const { check, validationResult } = require('express-validator');
+
 
 
 mongoose.connect('mongodb://127.0.0.1:27017/[qflixdb]').
@@ -23,11 +25,25 @@ const Users = Models.User;
 
 
 const app = express();
-const port = 8080
 
 //Middleware
 app.use(bodyParser.json());
 app.use(morgan('dev'));
+
+const cors = require('cors');
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) { // If a specific origin isn’t found on the list of allowed origins
+            let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
+            return callback(new Error(message), false);
+        }
+        return callback(null, true);
+    }
+}));
+
 
 let auth = require('./auth')(app);
 const passport = require('passport');
@@ -130,7 +146,21 @@ app.get('/movies/directors/:Name',
   Email: String,
   Birthday: Date
 }*/
-app.post('/users', async (req, res) => {
+app.post('/users', [
+    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+], async (req, res) => {
+
+    // check the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
     await Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
@@ -139,7 +169,7 @@ app.post('/users', async (req, res) => {
                 Users
                     .create({
                         Username: req.body.Username,
-                        Password: req.body.Password,
+                        Password: hashedPassword,
                         Email: req.body.Email,
                         Birthday: req.body.Birthday
                     })
@@ -168,7 +198,18 @@ app.post('/users', async (req, res) => {
   (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
+    check('Username', 'Username is required').isLength({ min: 5 }),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+], async (req, res) => {
+    // check the validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
     // CONDITION TO CHECK ADDED HERE
     if (req.user.Username !== req.params.Username) {
         return res.status(400).send('Permission denied');
@@ -178,7 +219,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
         $set:
         {
             Username: req.body.Username,
-            Password: req.body.Password,
+            Password: req.body.hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
         }
@@ -246,6 +287,7 @@ app.delete('/users/:Username',
             });
     });
 //Start Server
-app.listen(port, () => {
-    console.log('Your app is listening on port 8080');
+const port = process.env.PORT || 8080;
+app.listen(port, '0.0.0.0', () => {
+    console.log('Listening on Port ' + port);
 });

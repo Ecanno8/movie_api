@@ -9,8 +9,14 @@ const Models = require('./models.js');
 const { check, validationResult } = require('express-validator');
 
 
-const CONNECTION_URI = 'mongodb+srv://MovieFlixAdmin:gogB4Y4RYjfQu3UH@movieflix.s7vgm2e.mongodb.net/movieapi?retryWrites=true&w=majority';
-mongoose.connect(CONNECTION_URI, { useNewUrlParser: false, useUnifiedTopology: false })
+mongoose.connect(CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log('Connected to the database');
+    })
+    .catch((error) => {
+        console.error('Error connecting to the database: ' + error);
+    });
+
 
 const Movies = Models.Movie;
 const Users = Models.User;

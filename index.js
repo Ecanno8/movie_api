@@ -10,15 +10,7 @@ const { check, validationResult } = require('express-validator');
 
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/[qflixdb]').
-    catch(error => handleError(error));
-
-// Or:
-try {
-    mongoose.connect('mongodb://127.0.0.1:27017/[qflixdb]');
-} catch (error) {
-    handleError(error);
-}
+mongoose.connect('mongodb+srv://MovieFlixAdmin:<gogB4Y$RYjfQu3UH>@movieflix.s7vgm2e.mongodb.net/?retryWrites=true&w=majority',);
 
 const Movies = Models.Movie;
 const Users = Models.User;

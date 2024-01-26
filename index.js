@@ -10,7 +10,7 @@ const { check, validationResult } = require('express-validator');
 
 
 
-mongoose.connect('mongodb+srv://MovieFlixAdmin:<gogB4Y$RYjfQu3UH>@movieflix.s7vgm2e.mongodb.net/?retryWrites=true&w=majority',);
+mongoose.connect('mongodb+srv://MovieFlixAdmin:<gogB4Y$RYjfQu3UH>@movieflix.s7vgm2e.mongodb.net/movieapi?retryWrites=true&w=majority',);
 
 const Movies = Models.Movie;
 const Users = Models.User;

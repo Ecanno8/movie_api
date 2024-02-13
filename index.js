@@ -94,7 +94,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }),
 
 //  Get a single movie by title
 app.get('/movies/:Title',
-    passport.authenticate('jwt', { session: false }),
+    //passport.authenticate('jwt', { session: false }),
     async (req, res) => {
         await Movies.findOne({ Title: req.params.Title })
             .then((movie) => {

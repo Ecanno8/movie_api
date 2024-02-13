@@ -53,16 +53,17 @@ app.get("/", (req, res) => {
 });
 
 // Get all movies
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    await Movies.find()
-        .then((movies) => {
-            res.status(201).json(movies);
-        })
-        .catch((error) => {
-            console.error(error);
-            res.status(500).send('Error: ' + error);
-        });
-});
+app.get('/movies', //passport.authenticate('jwt', { session: false }), 
+    async (req, res) => {
+        await Movies.find()
+            .then((movies) => {
+                res.status(201).json(movies);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).send('Error: ' + error);
+            });
+    });
 
 // Get all users
 app.get('/users', passport.authenticate('jwt', { session: false }),

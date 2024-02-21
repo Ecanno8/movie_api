@@ -234,6 +234,28 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
         })
 });
 
+
+// Update the image path of a movie
+app.put('/movies/:id/image', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+        const movieId = req.params.id;
+        const imagePath = req.body.imagePath;
+
+        // Update the movie's image path in the database
+        const updatedMovie = await Movies.findByIdAndUpdate(movieId, { ImagePath: imagePath }, { new: true });
+
+        if (!updatedMovie) {
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+
+        return res.status(200).json(updatedMovie);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+
 //Add movie to favorites
 app.post('/users/:Username/movies/:MovieID',
     passport.authenticate('jwt', { session: false }),

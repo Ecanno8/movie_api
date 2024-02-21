@@ -235,25 +235,6 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), [
 });
 
 
-// Update the image path of a movie
-app.put('/movies/:id/image', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    try {
-        const movieId = req.params.id;
-        const imagePath = req.body.imagePath;
-
-        // Update the movie's image path in the database
-        const updatedMovie = await Movies.findByIdAndUpdate(movieId, { ImagePath: imagePath }, { new: true });
-
-        if (!updatedMovie) {
-            return res.status(404).json({ error: 'Movie not found' });
-        }
-
-        return res.status(200).json(updatedMovie);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'Internal server error' });
-    }
-});
 
 
 //Add movie to favorites
@@ -308,6 +289,35 @@ app.delete('/users/:Username',
                 res.status(500).send('Error: ' + err);
             });
     });
+
+// Update movie image path by ID
+app.put('/movies/:MovieID/image', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+        // Find the movie by its ID
+        const movie = await Movies.findById(req.params.MovieID);
+
+        // Check if the movie exists
+        if (!movie) {
+            return res.status(404).send('Movie not found');
+        }
+
+        // Check if the request body contains the required fields
+        if (!req.body.ImagePath) {
+            return res.status(400).send('ImagePath is required');
+        }
+
+        // Update the movie's image path
+        movie.ImagePath = req.body.ImagePath;
+        const updatedMovie = await movie.save();
+
+        res.json(updatedMovie);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+    }
+});
+
+
 //Start Server
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {

@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'http://localhost:56418'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'http://localhost:56418', 'https://qmovieflix.netlify.app'];
 
 app.use(cors({
     origin: (origin, callback) => {
@@ -291,7 +291,7 @@ app.delete('/users/:Username',
     });
 
 // Update movie image path by ID
-app.put('/movies/:MovieID/image', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/movies/:MovieID/image', async (req, res) => {
     try {
         // Find the movie by its ID
         const movie = await Movies.findById(req.params.MovieID);

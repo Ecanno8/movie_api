@@ -30,7 +30,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'http://localhost:56418', 'https://qmovieflix.netlify.app', 'http://localhost:4200', 'https://ecanno8.github.io/MyFlix-AngularApp/'];
+let allowedOrigins = ['http://localhost:8080', 'http://testsite.com', 'http://localhost:1234', 'http://localhost:56418', 'https://qmovieflix.netlify.app', 'http://localhost:4200', 'https://ecanno8.github.io', 'https://ecanno8.github.io/MyFlix-AngularApp/'];
 
 app.use(cors({
     origin: (origin, callback) => {

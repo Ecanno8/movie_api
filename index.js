@@ -372,7 +372,7 @@ app.put('/movies/:MovieID/image', async (req, res) => {
 
 // TODO
 // Endpoint to upload a file to the S3 'images/' folder
-app.post('/resized-image', async (req, res) => {
+app.post('/images', async (req, res) => {
     if (!req.files || !req.files.image) {
         return res.status(400).send("No file uploaded.");
     }

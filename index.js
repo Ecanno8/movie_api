@@ -378,7 +378,8 @@ app.post('/resized-images', async (req, res) => {
     // if (!req.files || !req.files.image) {
     //     return res.status(400).send("No file uploaded.");
     // }
-    res.status(200).send("helloworld")
+    res.status(200).send(req.file)
+
     // console.log(req.file)
     // console.log(req.files)
     // const file = req.files.image;

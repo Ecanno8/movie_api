@@ -378,8 +378,8 @@ app.post('/resized-images', async (req, res) => {
     // if (!req.files || !req.files.image) {
     //     return res.status(400).send("No file uploaded.");
     // }
-    console.log(req)
-    res.status(200).send(req.file)
+    console.log(req.image)
+    res.status(200).send(req.files)
 
     // console.log(req.file)
     // console.log(req.files)

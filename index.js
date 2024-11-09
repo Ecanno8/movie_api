@@ -378,6 +378,8 @@ app.post('/resized-images', async (req, res) => {
     if (!req.files || !req.files.image) {
         return res.status(400).send("No file uploaded.");
     }
+    console.log(req.file)
+    console.log(req.files)
     const file = req.files.image;
     const tempDir = path.join(__dirname, 'uploads');
     mkdirp.sync(tempDir);

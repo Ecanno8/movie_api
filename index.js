@@ -375,39 +375,40 @@ app.put('/movies/:MovieID/image', async (req, res) => {
 // TODO
 // Endpoint to upload a file to the S3 'images/' folder
 app.post('/resized-images', async (req, res) => {
-    if (!req.files || !req.files.image) {
-        return res.status(400).send("No file uploaded.");
-    }
-    console.log(req.file)
-    console.log(req.files)
-    const file = req.files.image;
-    const tempDir = path.join(__dirname, 'uploads');
-    mkdirp.sync(tempDir);
-    const tempPath = path.join(tempDir, file.name);
-    file.mv(tempPath, async (err) => {
-        if (err) return res.status(500).send(err);
-        try {
-            const fileStream = fs.createReadStream(tempPath);
-            const uploadParams = {
-                Bucket: 'cccflambucket',
-                Key: `original_images/${file.name}`, // Ensure the path matches your S3 folder
-                Body: fileStream,
-            };
-            await s3Client.send(new PutObjectCommand(uploadParams));
-            res.send(`File uploaded successfully to ${uploadParams.Bucket}/images/${file.name}`);
-            // for qflix API changes START
-            // =================================
-            // delay 3 seconds for lambda to run
-            // list files @ `resized_images/` and save the one that matches `file.name`
-            res.send({ "original_file": `$file.name`, "resized_file": resizedfilename })
-            // ==================================
-        } catch (err) {
-            console.error("Error uploading file:", err);
-            res.status(500).send("Error uploading file");
-        } finally {
-            fs.unlinkSync(tempPath);
-        }
-    });
+    // if (!req.files || !req.files.image) {
+    //     return res.status(400).send("No file uploaded.");
+    // }
+    res.status(200).send("helloworld")
+    // console.log(req.file)
+    // console.log(req.files)
+    // const file = req.files.image;
+    // const tempDir = path.join(__dirname, 'uploads');
+    // mkdirp.sync(tempDir);
+    // const tempPath = path.join(tempDir, file.name);
+    // file.mv(tempPath, async (err) => {
+    //     if (err) return res.status(500).send(err);
+    //     try {
+    //         const fileStream = fs.createReadStream(tempPath);
+    //         const uploadParams = {
+    //             Bucket: 'cccflambucket',
+    //             Key: `original_images/${file.name}`, // Ensure the path matches your S3 folder
+    //             Body: fileStream,
+    //         };
+    //         await s3Client.send(new PutObjectCommand(uploadParams));
+    //         res.send(`File uploaded successfully to ${uploadParams.Bucket}/images/${file.name}`);
+    //         // for qflix API changes START
+    //         // =================================
+    //         // delay 3 seconds for lambda to run
+    //         // list files @ `resized_images/` and save the one that matches `file.name`
+    //         res.send({ "original_file": `$file.name`, "resized_file": resizedfilename })
+    //         // ==================================
+    //     } catch (err) {
+    //         console.error("Error uploading file:", err);
+    //         res.status(500).send("Error uploading file");
+    //     } finally {
+    //         fs.unlinkSync(tempPath);
+    //     }
+    // });
 });
 
 // Start Server
